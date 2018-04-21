@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "900919195438",
+    "firebase_url": "https://teammanager-201701.firebaseio.com",
+    "project_id": "teammanager-201701",
+    "storage_bucket": "teammanager-201701.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900919195438:android:18645738ac98f3f9",
+        "android_client_info": {
+          "package_name": "com.example.asus.teammanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "900919195438-bme8r7t4duu4fvl8i1ih5qmbeggkms49.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.asus.teammanager",
+            "certificate_hash": "e3fb38a316f8b97f86c4a8d8ebf2e2aa8f7ec7ec"
+          }
+        },
+        {
+          "client_id": "900919195438-bi0bhmrm0djgbkf862uremcd3ks9mbhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC44K-wh4smrhvw16QtHiwZ7orD2lL4o3c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "900919195438-bi0bhmrm0djgbkf862uremcd3ks9mbhr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

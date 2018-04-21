@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_register"
+            android:title="Register Customer" />
+        <item
+            android:id="@+id/nav_visit_plan"
+            android:title="Visit Plan" />
+        <item
+            android:id="@+id/nav_follow_up"
+            android:title="Follow-up Customer" />
+        <item
+            android:id="@+id/nav_customer_receivable"
+            android:title="Customer Receivable" />
+        <item
+            android:id="@+id/nav_achievement"
+            android:title="Achievement"/>
+        <item
+            android:id="@+id/nav_order_region"
+            android:title="Order per Region"/>
+        <item
+            android:id="@+id/nav_si_dn"
+            android:title="SI \&amp; DN"/>
+        <item
+            android:id="@+id/nav_entry_order"
+            android:title="Entry Order"/>
+        <item
+            android:id="@+id/nav_log_out"
+            android:title="Log Out"/>
+    </group>
+
+    <!--<item android:title="Communicate">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_share"-->
+                <!--android:title="Share" />-->
+            <!--<item-->
+                <!--android:id="@+id/nav_send"-->
+                <!---->
+                <!--android:title="Send" />-->
+        <!--</menu>-->
+    <!--</item>-->
+
+</menu>
