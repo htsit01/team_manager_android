@@ -54,7 +54,7 @@ public class RetailSMActivity extends AppCompatActivity
             }
         });
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_retail_sm, new MainFragment()).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.content_retail_sm, new MainFragment()).commit();
     }
 
     @Override

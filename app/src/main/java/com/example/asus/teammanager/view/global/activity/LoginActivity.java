@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,7 +22,10 @@ import com.example.asus.teammanager.presenter.GlobalPresenter;
 import com.example.asus.teammanager.presenter.auth_presenter.LoginPresenter;
 import com.example.asus.teammanager.presenter.user_presenter.GetUserPresenter;
 import com.example.asus.teammanager.view.retail_salesmanager.activity.RetailSMActivity;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
+import com.pusher.pushnotifications.PushNotificationReceivedListener;
+import com.pusher.pushnotifications.PushNotifications;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -124,9 +128,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /*
+        This function is for checking whether user is login
+        system will get the "is login" status from Class session manager
+        session manager will save is login status every time the user login
 
 
+        if user login , then we check the user role id is null or not
+        if null it means, user data hasnt been saved to our system (probably fail get user data on login)
+        if not null it means, we already has the user data then the user are save to use RetailSMActivity
 
+         */
         if(sm.isUserLogin()){
             /*
             ONLY IF WE KNOW THE USER ROLE ID / only if user is not null
@@ -145,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(input_email.getText().toString().trim()) && !TextUtils.isEmpty(input_password.getText().toString().trim())){
             return true;
         }
+
         return false;
     }
 

@@ -15,6 +15,7 @@ public class SessionManager {
     private static final int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "USER_SESSION";
     private static final String KEY_IS_LOGIN = "IS_USER_LOGIN";
+    private static final String KEY_IS_SUBSCRIBED = "IS_USER_SUBSCRIBED";
     private static final String KEY_USER = "USER";
     private static final String KEY_TOKEN = "TOKEN";
     private static final String KEY_LAST_LAT = "LAST_LAT";
@@ -83,5 +84,9 @@ public class SessionManager {
 
     public boolean isUserLogin(){
         return sharedPreferences.getBoolean(KEY_IS_LOGIN, false);
+    }
+
+    public boolean isUserSubscribed(){
+        return sharedPreferences.getBoolean(KEY_IS_SUBSCRIBED, false);
     }
 }

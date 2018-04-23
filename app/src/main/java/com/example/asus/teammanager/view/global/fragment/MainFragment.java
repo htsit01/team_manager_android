@@ -50,7 +50,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-//        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         rv_user_locations = view.findViewById(R.id.rv_users);
 
         sm = new SessionManager(getContext());
@@ -59,19 +59,19 @@ public class MainFragment extends Fragment {
         rv_user_locations.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_user_locations.setAdapter(adapter);
 
-//        mapReadyCallback = new OnMapReadyCallback() {
-//            @Override
-//            public void onMapReady(GoogleMap googleMap) {
-//                map = googleMap;
-//                map.clear();
-//                for(UserLocation userLocation : user_locations){
-//                    map.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLast_location().getLat(),userLocation.getLast_location().getLng()))
-//                            .anchor(0.5f,1).title(userLocation.getLast_location().getAddress()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
-//                            .showInfoWindow();
-//                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(3.594276,98.687040),18f));
-//                }
-//            }
-//        };
+        mapReadyCallback = new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                map = googleMap;
+                map.clear();
+                for(UserLocation userLocation : user_locations){
+                    map.addMarker(new MarkerOptions().position(new LatLng(userLocation.getLast_location().getLat(),userLocation.getLast_location().getLng()))
+                            .anchor(0.5f,1).title(userLocation.getLast_location().getAddress()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
+                            .showInfoWindow();
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(3.594276,98.687040),18f));
+                }
+            }
+        };
 
         GetAllLocationsPresenter getAllLocationsPresenter = new GetAllLocationsPresenter(new GlobalPresenter() {
             @Override
