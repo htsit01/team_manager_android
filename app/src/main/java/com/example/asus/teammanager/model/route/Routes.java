@@ -3,6 +3,7 @@ package com.example.asus.teammanager.model.route;
 import com.example.asus.teammanager.model.api_model.CustomerType;
 import com.example.asus.teammanager.model.api_model.User;
 import com.example.asus.teammanager.model.api_model.UserLocation;
+import com.example.asus.teammanager.model.api_model.VisitPlanList;
 import com.example.asus.teammanager.model.api_model.VisitPlanWithCount;
 import com.example.asus.teammanager.model.response.LocationHistoryResponse;
 import com.example.asus.teammanager.model.response.LoginResponse;
@@ -48,6 +49,10 @@ public interface Routes {
     @Headers("Accept:application/json")
     @GET("api/firstmonday")
     Call<ArrayList<String>> getFirstMonday(@Query("year") int year, @Query("month") int month);
+
+    @Headers("Accept:application/json")
+    @GET("api/visitplan/{id}/plan-list")
+    Call<ArrayList<VisitPlanList>> getPlanList(@Header("Authorization") String header, @Path("id") int visit_plan_id,@Query("day") int day);
 
 //    @Headers("Accept:application/json")
 //    @GET("api/fetchsalesperson")
