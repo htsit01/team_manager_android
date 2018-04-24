@@ -3,6 +3,7 @@ package com.example.asus.teammanager.model.route;
 import com.example.asus.teammanager.model.api_model.CustomerType;
 import com.example.asus.teammanager.model.api_model.User;
 import com.example.asus.teammanager.model.api_model.UserLocation;
+import com.example.asus.teammanager.model.api_model.VisitPlanWithCount;
 import com.example.asus.teammanager.model.response.LocationHistoryResponse;
 import com.example.asus.teammanager.model.response.LoginResponse;
 import com.example.asus.teammanager.model.response.Message;
@@ -40,6 +41,14 @@ public interface Routes {
     @GET("api/location-history/{id}")
     Call<LocationHistoryResponse> getLocationHistory(@Header("Authorization") String header, @Path("id") int id, @Query("day") Integer day);
 
+    @Headers("Accept:application/json")
+    @GET("api/visitplan")
+    Call<ArrayList<VisitPlanWithCount>> getMyVisitPlan(@Header("Authorization") String header, @Query("valid_date") String valid_date);
+
+    @Headers("Accept:application/json")
+    @GET("api/firstmonday")
+    Call<ArrayList<String>> getFirstMonday(@Query("year") int year, @Query("month") int month);
+
 //    @Headers("Accept:application/json")
 //    @GET("api/fetchsalesperson")
 //
@@ -65,5 +74,11 @@ public interface Routes {
     @POST("api/login")
     Call<LoginResponse> postLogin(@Body Map<String, String> data);
 
+    @Headers("Accept:application/json")
+    @POST("api/add-plan")
+    Call<Message> addVisitPlan(@Header("Authorization") String header,  @Body Map<String, String> data);
 
+    @Headers("Accept:application/json")
+    @POST("api/visitplan/delete")
+    Call<Message> deleteVisitPlan(@Header("Authorization") String header, @Body Map<String, Integer> data);
 }

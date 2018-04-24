@@ -2,8 +2,18 @@
 <resources>
     <color name="colorPrimary">#673AB7</color>
     <color name="colorPrimaryDark">#512DA8</color>
-    <color name="colorAccent">#40C4FF</color>
+    <color name="colorAccent">#b78d21</color>
     <color name="colorText">#131313</color>
     <color name="colorTextWhite">#ffffff</color>
-    <color name="colorLogin">#bdffbc</color>
+    <color name="colorTextSecondary">#5e5e5e</color>
+    <color name="colorRed">#ff0000</color>
+    <color name="colorTextGreen">#00ff00</color>
+
+
+
+
+    <color name="colorBgWhite">#ffffff</color>
+    <color name="colorGreen">#bdffbc</color>
+    <color name="colorDivider">#b9b9b3</color>
+
 </resources>

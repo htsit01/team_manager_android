@@ -2,8 +2,12 @@ package com.example.asus.teammanager.class_project;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Functionality {
     public static String getMacAddress(){
@@ -34,5 +38,17 @@ public class Functionality {
             e.printStackTrace();
         }
         return "02:00:00:00:00:00";
+    }
+    public static String formatDate(String from_format, String to_format, String value){
+        SimpleDateFormat from = new SimpleDateFormat(from_format, new Locale("id","ID"));
+        SimpleDateFormat to = new SimpleDateFormat(to_format, new Locale("id","ID"));
+
+        try {
+            Date date = from.parse(value);
+            return to.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }
