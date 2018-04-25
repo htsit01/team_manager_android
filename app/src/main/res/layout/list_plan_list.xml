@@ -55,7 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Details"
-                    android:textColor="@color/colorText"/>
+                    android:textColor="@color/colorTextSecondary" />
             </LinearLayout>
             <ImageView
                 android:id="@+id/color_indicator"
@@ -63,6 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="64dp"
+                android:scaleType="fitCenter"
                 android:layout_gravity="center"/>
         </LinearLayout>
     </LinearLayout>

@@ -1,6 +1,8 @@
 package com.example.asus.teammanager.model.api_model;
 
-public class VisitPlan {
+import java.io.Serializable;
+
+public class VisitPlan implements Serializable{
     private int id;
     private int user_id;
     private String valid_date;

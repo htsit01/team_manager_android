@@ -29,7 +29,8 @@
             android:name=".view.retail_salesmanager.activity.RetailSMActivity"
             android:label="Main Activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.global.activity.LocationHistoryActivity"></activity>
+        <activity android:name=".view.global.activity.LocationHistoryActivity" />
+        <activity android:name=".view.global.activity.VisitPlanListActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,7 @@
 package com.example.asus.teammanager.model.route;
 
+import com.example.asus.teammanager.model.api_model.Customer;
+import com.example.asus.teammanager.model.api_model.CustomerArea;
 import com.example.asus.teammanager.model.api_model.CustomerType;
 import com.example.asus.teammanager.model.api_model.User;
 import com.example.asus.teammanager.model.api_model.UserLocation;
@@ -54,6 +56,14 @@ public interface Routes {
     @GET("api/visitplan/{id}/plan-list")
     Call<ArrayList<VisitPlanList>> getPlanList(@Header("Authorization") String header, @Path("id") int visit_plan_id,@Query("day") int day);
 
+    @Headers("Accept:application/json")
+    @GET("api/customerareas")
+    Call<ArrayList<CustomerArea>> getCustomerArea(@Header("Authorization") String header);
+
+    @Headers("Accept:application/json")
+    @GET("api/customers")
+    Call<ArrayList<Customer>> getCustomer(@Header("Authorization") String header);
+
 //    @Headers("Accept:application/json")
 //    @GET("api/fetchsalesperson")
 //
@@ -86,4 +96,12 @@ public interface Routes {
     @Headers("Accept:application/json")
     @POST("api/visitplan/delete")
     Call<Message> deleteVisitPlan(@Header("Authorization") String header, @Body Map<String, Integer> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/visitplan/plan-list/{id}/delete")
+    Call<Message> deleteVisitPlanList(@Header("Authorization") String header, @Path("id") int id,  @Body Map<String, Integer> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/visitplan/plan-list")
+    Call<Message> addVisitPlanList(@Header("Authorization") String header, @Body Map<String, Object> data);
 }

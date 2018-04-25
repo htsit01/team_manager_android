@@ -1,6 +1,7 @@
 package com.example.asus.teammanager.view.global.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -28,7 +29,9 @@ import com.example.asus.teammanager.presenter.date_presenter.DatePresenter;
 import com.example.asus.teammanager.presenter.visit_plan.AddVisitPlanPresenter;
 import com.example.asus.teammanager.presenter.visit_plan.DeleteMyVisitPlanPresenter;
 import com.example.asus.teammanager.presenter.visit_plan.GetMyVisitPlanPresenter;
+import com.example.asus.teammanager.view.global.activity.VisitPlanListActivity;
 import com.example.asus.teammanager.view.global.adapter.VisitPlanWithCountAdapter;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -46,7 +49,7 @@ import retrofit2.Call;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAdapter.onDeleteVisitPlan{
+public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAdapter.onDeleteVisitPlan, VisitPlanWithCountAdapter.onClickVisitPlan{
 
     private ArrayList<String> years = new ArrayList<>();
     private ArrayList<String> months = new ArrayList<>(Arrays.asList("Select Month", "January","February","March","April","May","June","July","August","September","October","November","December"));
@@ -55,7 +58,6 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
 
     private GetMyVisitPlanPresenter plan_presenter;
     private DatePresenter date_presenter;
-    private DeleteMyVisitPlanPresenter delete_presenter;
     private ArrayList<VisitPlanWithCount> visit_plans = new ArrayList<>();
     private VisitPlanWithCountAdapter adapter;
     private int month, year;
@@ -97,6 +99,7 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
             public void onSuccess(Object object) {
                 ArrayList<VisitPlanWithCount> result = (ArrayList<VisitPlanWithCount>) object;
                 visit_plans.clear();
+                adapter.notifyDataSetChanged();
                 if(result.size()==0){
                     txt_info.setVisibility(View.VISIBLE);
                     txt_info.setText("No Visit Plan found! Add new one by tapping on + button");
@@ -104,20 +107,24 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
                 else{
                     txt_info.setVisibility(View.GONE);
                     visit_plans.addAll(result);
-                    adapter.notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onError(int code, String message) {
                 visit_plans.clear();
+                adapter.notifyDataSetChanged();
                 txt_info.setVisibility(View.VISIBLE);
-                txt_info.setText("Sorry, Something went wrong. Error code: ".concat(String.valueOf(code)));
+
+                Message response  = new Gson().fromJson(message, Message.class);
+                txt_info.setText(response.getMessage());
+//                txt_info.setText("Sorry, Something went wrong. Error code: ".concat(String.valueOf(code)));
             }
 
             @Override
             public void onFail(String message) {
                 visit_plans.clear();
+                adapter.notifyDataSetChanged();
                 txt_info.setVisibility(View.VISIBLE);
                 txt_info.setText(message);
             }
@@ -131,24 +138,27 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
                     dates.add(Functionality.formatDate("yyyy-MM-dd", "EEE, dd MMM yyyy", item));
                 }
 
-                date_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, dates);
-                spinner_date.setAdapter(date_adapter);
+                date_adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onError(int code, String message) {
+                dates.clear();
+                date_adapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFail(String message) {
+                dates.clear();
+                date_adapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
 
         rv_visit_plans.setLayoutManager( new LinearLayoutManager(getContext()));
         adapter = new VisitPlanWithCountAdapter(visit_plans);
-        adapter.setInteface(this);
+        adapter.setInteface(this, this);
         rv_visit_plans.setAdapter(adapter);
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,7 +285,7 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
     public void onDelete(View view) {
         int id = (int) view.getTag();
 
-        delete_presenter = new DeleteMyVisitPlanPresenter(new GlobalPresenter() {
+        DeleteMyVisitPlanPresenter delete_presenter = new DeleteMyVisitPlanPresenter(new GlobalPresenter() {
             @Override
             public void onSuccess(Object object) {
                 Message message = (Message) object;
@@ -287,7 +297,8 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
 
             @Override
             public void onError(int code, String message) {
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                Message response = new Gson().fromJson(message, Message.class);
+                Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -297,5 +308,14 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
         });
 
         delete_presenter.deleteMyVisitPlan(sm.getToken().getAccess_token(), id);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int position = (int) view.getTag();
+
+        Intent intent = new Intent(getContext(), VisitPlanListActivity.class);
+        intent.putExtra("VISIT_PLAN",visit_plans.get(position));
+        startActivity(intent);
     }
 }

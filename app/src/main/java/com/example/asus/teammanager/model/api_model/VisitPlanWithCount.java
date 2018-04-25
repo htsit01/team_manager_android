@@ -1,6 +1,8 @@
 package com.example.asus.teammanager.model.api_model;
 
-public class VisitPlanWithCount extends VisitPlan{
+import java.io.Serializable;
+
+public class VisitPlanWithCount extends VisitPlan implements Serializable{
 
     private int numb_of_plans;
     private int numb_of_done;

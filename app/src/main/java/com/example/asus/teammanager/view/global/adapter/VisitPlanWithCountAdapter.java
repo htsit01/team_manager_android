@@ -23,10 +23,16 @@ public class VisitPlanWithCountAdapter extends RecyclerView.Adapter<VisitPlanWit
     public interface onDeleteVisitPlan{
         void onDelete(View view);
     }
-    private onDeleteVisitPlan onDeleteVisitPlan;
+    public interface onClickVisitPlan{
+        void onClick(View view);
+    }
 
-    public void setInteface(onDeleteVisitPlan onDeleteVisitPlan){
+    private onDeleteVisitPlan onDeleteVisitPlan;
+    private onClickVisitPlan onClickVisitPlan;
+
+    public void setInteface(onDeleteVisitPlan onDeleteVisitPlan, onClickVisitPlan onClickVisitPlan){
         this.onDeleteVisitPlan = onDeleteVisitPlan;
+        this.onClickVisitPlan = onClickVisitPlan;
     }
 
     public VisitPlanWithCountAdapter(ArrayList<VisitPlanWithCount> visit_plans){
@@ -48,6 +54,7 @@ public class VisitPlanWithCountAdapter extends RecyclerView.Adapter<VisitPlanWit
         holder.visit_plan_numbOfPlans.setText("Number of plans: ".concat(String.valueOf(visit_plan.getNumb_of_plans())));
         holder.visit_plan_numbOfDone.setText("Number of done: ".concat(String.valueOf(visit_plan.getNumb_of_done())));
         holder.txt_delete.setTag(visit_plan.getId());
+        holder.itemView.setTag(position);
 
         if(visit_plan.getStatus()!=null){
             if(visit_plan.getStatus()==0){
@@ -95,6 +102,14 @@ public class VisitPlanWithCountAdapter extends RecyclerView.Adapter<VisitPlanWit
                 public void onClick(View v) {
                     if(onDeleteVisitPlan!=null){
                         onDeleteVisitPlan.onDelete(v);
+                    }
+                }
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onClickVisitPlan!=null){
+                        onClickVisitPlan.onClick(v);
                     }
                 }
             });
