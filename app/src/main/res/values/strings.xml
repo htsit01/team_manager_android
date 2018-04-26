@@ -13,4 +13,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="geocoding_key">AIzaSyC44K-wh4smrhvw16QtHiwZ7orD2lL4o3c</string>
 </resources>

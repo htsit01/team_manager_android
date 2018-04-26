@@ -36,7 +36,6 @@ public class AddPlanListDialog extends DialogFragment {
     private EditText description;
     private ProgressBar progress_shop;
     private GetCustomerPresenter customer_presenter;
-    private int status, type, intent_type; //0 add 1 edit
     private ArrayList<String> customers_name = new ArrayList<>();
     private ArrayList<Customer> customers = new ArrayList<>();
     private SessionManager sm;
@@ -44,10 +43,15 @@ public class AddPlanListDialog extends DialogFragment {
     private RadioGroup type_group;
     private String txt_descripton;
     private ArrayAdapter<String> shop_adapter;
+
+    // untuk type: indikator add or edit (0 menas add 1 means add)
+    // untuk intent_type: type dari plan list yang di send via intent (daily or periodic)
+    private int status, type, intent_type, plan_id;
     private String intent_description;
 
     public interface OnSubmit{
-        void onSubmit(int customer_id, int type, String description);
+        void onAdd(int customer_id, int type, String description);
+        void onEdit(int plan_id, int customer_id, int type, String description);
     }
 
     private OnSubmit onSubmit;
@@ -73,6 +77,7 @@ public class AddPlanListDialog extends DialogFragment {
         status = getArguments().getInt("STATUS");
         intent_description = getArguments().getString("DESCRIPTION");
         intent_type = getArguments().getInt("TYPE");
+        plan_id = getArguments().getInt("PLAN_ID");
 
         if(status==0){
             builder.setTitle("Add Plan List");
@@ -146,28 +151,28 @@ public class AddPlanListDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(onSubmit!=null){
-                    if(status==0){
-                        if(type_group.getCheckedRadioButtonId()==-1){
-                            Toast.makeText(getContext(), "Please, make sure you select one of the plan type.", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            if(type_group.getCheckedRadioButtonId() == R.id.type_daily){
-                                type = 0;
-                            }
-                            else {
-                                type = 1;
-                            }
-                            if(TextUtils.isEmpty(description.getText().toString().trim())){
-                                txt_descripton = null;
-                            }
-                            else{
-                                txt_descripton = description.getText().toString();
-                            }
-                            onSubmit.onSubmit(customers.get(spinner_shop.getSelectedItemPosition()).getId(),type,txt_descripton);
-                        }
+                    if(type_group.getCheckedRadioButtonId()==-1){
+                        Toast.makeText(getContext(), "Please, make sure you select one of the plan type.", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        //TODO:: edit visitplan list
+                        if(type_group.getCheckedRadioButtonId() == R.id.type_daily){
+                            type = 0;
+                        }
+                        else {
+                            type = 1;
+                        }
+                        if(TextUtils.isEmpty(description.getText().toString().trim())){
+                            txt_descripton = null;
+                        }
+                        else{
+                            txt_descripton = description.getText().toString();
+                        }
+                        if(status == 0 ){ //means add
+                            onSubmit.onAdd(customers.get(spinner_shop.getSelectedItemPosition()).getId(),type,txt_descripton);
+                        }
+                        else{ //means edit
+                            onSubmit.onEdit(plan_id, customers.get(spinner_shop.getSelectedItemPosition()).getId(), type, txt_descripton);
+                        }
                     }
                 }
             }

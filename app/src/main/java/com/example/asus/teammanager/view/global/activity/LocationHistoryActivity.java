@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -68,8 +69,6 @@ public class LocationHistoryActivity extends AppCompatActivity {
             }
         });
 
-
-
         locationHistoryPresenter = new GetLocationHistoryPresenter(new GlobalPresenter() {
             @Override
             public void onSuccess(Object object) {
@@ -96,5 +95,24 @@ public class LocationHistoryActivity extends AppCompatActivity {
         });
 
         locationHistoryPresenter.getLocationHistory(sm.getToken().getAccess_token(), user_id, 2);
+
+        setTitle("Location History");
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+//                NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

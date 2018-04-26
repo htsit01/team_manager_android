@@ -138,20 +138,26 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
                     dates.add(Functionality.formatDate("yyyy-MM-dd", "EEE, dd MMM yyyy", item));
                 }
 
-                date_adapter.notifyDataSetChanged();
+                date_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, dates);
+                date_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_date.setAdapter(date_adapter);
             }
 
             @Override
             public void onError(int code, String message) {
                 dates.clear();
-                date_adapter.notifyDataSetChanged();
+                date_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, dates);
+                date_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_date.setAdapter(date_adapter);
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFail(String message) {
                 dates.clear();
-                date_adapter.notifyDataSetChanged();
+                date_adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, dates);
+                date_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_date.setAdapter(date_adapter);
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
@@ -172,12 +178,13 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
                 calendar.set(Calendar.SECOND,0);
                 calendar.set(Calendar.MILLISECOND,0);
                 now= calendar.getTime();
-
+                Log.e("date", now.toString());
                 Date selected;
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",new Locale("id", "ID"));
                 try {
                     selected = sdf.parse(selected_date);
+                    Log.e("date", selected_date);
                     if(selected.compareTo(now)<0){
                         Toast.makeText(getContext(), "You cannot add visit plan on past day.", Toast.LENGTH_SHORT).show();
                     }
@@ -264,6 +271,7 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selected_date = Functionality.formatDate("EEE, dd MMM yyyy", "yyyy-MM-dd", parent.getSelectedItem().toString());
+                Log.e("date", parent.getSelectedItem().toString());
                 if(!TextUtils.isEmpty(selected_date.trim())||selected_date!=null){
                     plan_presenter.getMyVisitPlan(sm.getToken().getAccess_token(),selected_date);
                 }

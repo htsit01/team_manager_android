@@ -7,6 +7,7 @@ import com.example.asus.teammanager.model.api_model.User;
 import com.example.asus.teammanager.model.api_model.UserLocation;
 import com.example.asus.teammanager.model.api_model.VisitPlanList;
 import com.example.asus.teammanager.model.api_model.VisitPlanWithCount;
+import com.example.asus.teammanager.model.response.GeocodingApiResult;
 import com.example.asus.teammanager.model.response.LocationHistoryResponse;
 import com.example.asus.teammanager.model.response.LoginResponse;
 import com.example.asus.teammanager.model.response.Message;
@@ -64,6 +65,14 @@ public interface Routes {
     @GET("api/customers")
     Call<ArrayList<Customer>> getCustomer(@Header("Authorization") String header);
 
+    @GET("maps/api/geocode/json")
+    Call<GeocodingApiResult> getLocationResult(@Query("latlng") String latlng, @Query("key") String key);
+
+    @GET("maps/api/geocode/json")
+    Call<GeocodingApiResult> getLatngResult(@Query("address") String address, @Query("key") String key);
+
+
+
 //    @Headers("Accept:application/json")
 //    @GET("api/fetchsalesperson")
 //
@@ -104,4 +113,16 @@ public interface Routes {
     @Headers("Accept:application/json")
     @POST("api/visitplan/plan-list")
     Call<Message> addVisitPlanList(@Header("Authorization") String header, @Body Map<String, Object> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/visitplan/plan-list/{id}/update")
+    Call<Message> updateVisitPlanList(@Header("Authorization") String header, @Path("id") int id,  @Body Map<String, Object> data);
+
+    @Headers("Accpet:application/json")
+    @POST("api/visitplan/plan-list/checkin")
+    Call<Message> doCheckin(@Header("Authorization") String header, @Body Map<String, Object> data);
+
+    @Headers("Accpet:application/json")
+    @POST("api/visitplan/plan-list/checkout")
+    Call<Message> doCheckout(@Header("Authorization") String header, @Body Map<String, Object> data);
 }

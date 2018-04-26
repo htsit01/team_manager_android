@@ -1,6 +1,8 @@
 package com.example.asus.teammanager.model.api_model;
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
     private int id;
     private double lat;
     private double lng;

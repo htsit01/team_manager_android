@@ -1,11 +1,13 @@
 package com.example.asus.teammanager.view.global.activity;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +28,7 @@ import com.example.asus.teammanager.presenter.customer_presenter.GetCustomerArea
 import com.example.asus.teammanager.presenter.visit_plan.AddVisitPlanListPresenter;
 import com.example.asus.teammanager.presenter.visit_plan.DeleteVisitPlanListPresenter;
 import com.example.asus.teammanager.presenter.visit_plan.GetVisitPlanListPresenter;
+import com.example.asus.teammanager.presenter.visit_plan.UpdateVisitPlanListPresenter;
 import com.example.asus.teammanager.view.global.adapter.PlanListAdapter;
 import com.example.asus.teammanager.view.global.fragment.AddPlanListDialog;
 import com.google.gson.Gson;
@@ -52,6 +55,7 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
     private ArrayList<String> days = new ArrayList<>(Arrays.asList("Monday","Tuesday", "Wednesday", "Thursday","Friday", "Saturday", "Sunday"));
     private int day;
     private VisitPlanWithCount visit_plan;
+    private boolean is_first_launch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,18 +154,26 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
         Calendar calendar = Calendar.getInstance(new Locale("id","ID"));
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
 
-        if(calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY){
-            day = 6;
+        if(visit_plan.getStatus()!=null){
+            if(visit_plan.getStatus()==2){
+                if(calendar.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY){
+                    day = 6;
+                }
+                else{
+                    day = calendar.get(Calendar.DAY_OF_WEEK) -2;
+                }
+                spinner_day.setSelection(day);
+            }
         }
-        else{
-            day = calendar.get(Calendar.DAY_OF_WEEK) -2;
-        }
-        spinner_day.setSelection(day);
+
+
         spinner_day.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 day = spinner_day.getSelectedItemPosition();
-                plan_list_presenter.getPlanList(sm.getToken().getAccess_token(), visit_plan.getId(),spinner_day.getSelectedItemPosition());
+                if(!is_first_launch){
+                    plan_list_presenter.getPlanList(sm.getToken().getAccess_token(), visit_plan.getId(),spinner_day.getSelectedItemPosition());
+                }
             }
 
             @Override
@@ -209,6 +221,12 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
             }
         });
 
+        setTitle("My Plan List");
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
 //        plan_list_presenter.getPlanList(sm.getToken().getAccess_token(), visit_plan.getId(),spinner_day.getSelectedItemPosition());
     }
 
@@ -254,11 +272,15 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
                 args.putInt("STATUS", status);//0 add, 1 edit
                 args.putString("DESCRIPTION", plan_list.get(position).getDescription());
                 args.putInt("TYPE", plan_list.get(position).getType());
+                args.putInt("PLAN_ID", plan_list.get(position).getId());
                 dialog.setArguments(args);
-                dialog.show(getSupportFragmentManager(), "AddPlanListDialog");
+                dialog.show(getSupportFragmentManager(), "EditPlanListDialog");
             }
             else{
-                //show checkin page
+                Intent intent = new Intent(this, CheckinActivity.class);
+                intent.putExtra("PLAN_LIST", plan_list.get(position));
+                intent.putExtra("STATUS",visit_plan.getStatus());
+                startActivity(intent);
             }
 
         }else{
@@ -270,18 +292,21 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
             args.putInt("STATUS", status);//0 add, 1 edit
             args.putString("DESCRIPTION", plan_list.get(position).getDescription());
             args.putInt("TYPE", plan_list.get(position).getType());
+            args.putInt("PLAN_ID", plan_list.get(position).getId());
             dialog.setArguments(args);
-            dialog.show(getSupportFragmentManager(), "AddPlanListDialog");
+            dialog.show(getSupportFragmentManager(), "EditPlanListDialog");
         }
     }
 
     @Override
-    public void onSubmit(int customer_id, int type, String description) {
-        AddVisitPlanListPresenter plan_list_presenter = new AddVisitPlanListPresenter(new GlobalPresenter() {
+    public void onAdd(int customer_id, int type, String description) {
+        AddVisitPlanListPresenter add_plan_presenter = new AddVisitPlanListPresenter(new GlobalPresenter() {
             @Override
             public void onSuccess(Object object) {
                 Message message = (Message) object;
                 Toast.makeText(VisitPlanListActivity.this, message.getMessage(), Toast.LENGTH_SHORT).show();
+
+                plan_list_presenter.getPlanList(sm.getToken().getAccess_token(), visit_plan.getId(),spinner_day.getSelectedItemPosition());
             }
 
             @Override
@@ -295,7 +320,53 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
                 Toast.makeText(VisitPlanListActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
-        plan_list_presenter.AddVisitPlanList(sm.getToken().getAccess_token(), visit_plan.getId(), customer_id, day, type, description);
+        add_plan_presenter.AddVisitPlanList(sm.getToken().getAccess_token(), visit_plan.getId(), customer_id, day, type, description);
+
+    }
+
+    @Override
+    public void onEdit(int plan_id, int customer_id, int type, String description) {
+        UpdateVisitPlanListPresenter delete_plan_presenter = new UpdateVisitPlanListPresenter(new GlobalPresenter() {
+            @Override
+            public void onSuccess(Object object) {
+                Message message = (Message) object;
+                Toast.makeText(VisitPlanListActivity.this, message.getMessage(), Toast.LENGTH_SHORT).show();
+                plan_list_presenter.getPlanList(sm.getToken().getAccess_token(), visit_plan.getId(),spinner_day.getSelectedItemPosition());
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                Message response = new Gson().fromJson(message, Message.class);
+                Toast.makeText(VisitPlanListActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFail(String message) {
+                Toast.makeText(VisitPlanListActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+        delete_plan_presenter.updateVisitPlanList(sm.getToken().getAccess_token(), plan_id, visit_plan.getId(), customer_id, day, type, description);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        plan_list_presenter.getPlanList(sm.getToken().getAccess_token(), visit_plan.getId(),spinner_day.getSelectedItemPosition());
+        is_first_launch = false;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+//                NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
