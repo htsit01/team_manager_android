@@ -40,6 +40,7 @@ public class Functionality {
         }
         return "02:00:00:00:00:00";
     }
+
     public static String formatDate(String from_format, String to_format, String value){
         SimpleDateFormat from = new SimpleDateFormat(from_format, new Locale("id","ID"));
         SimpleDateFormat to = new SimpleDateFormat(to_format, new Locale("id","ID"));
@@ -100,8 +101,8 @@ public class Functionality {
         return (rad * 180 / Math.PI);
     }
 
-    public static String formatDatetoString(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("id","ID"));
+    public static String formatDatetoString(Date date, String to_format){
+        SimpleDateFormat sdf = new SimpleDateFormat(to_format, new Locale("id","ID"));
         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
         return sdf.format(date);
     }

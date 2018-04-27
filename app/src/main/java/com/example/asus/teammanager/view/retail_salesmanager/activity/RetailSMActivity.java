@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.asus.teammanager.R;
+import com.example.asus.teammanager.view.global.fragment.FollowUpFragment;
 import com.example.asus.teammanager.view.global.fragment.MainFragment;
 import com.example.asus.teammanager.view.global.fragment.VisitPlanFragment;
 import com.google.firebase.messaging.RemoteMessage;
@@ -98,7 +99,7 @@ public class RetailSMActivity extends AppCompatActivity
         } else if (id == R.id.nav_visit_plan) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_retail_sm, new VisitPlanFragment()).commit();
         } else if (id == R.id.nav_follow_up) {
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_retail_sm, new FollowUpFragment()).commit();
         } else if (id == R.id.nav_customer_receivable) {
 
         } else if (id == R.id.nav_achievement) {

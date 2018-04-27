@@ -3,6 +3,7 @@ package com.example.asus.teammanager.model.route;
 import com.example.asus.teammanager.model.api_model.Customer;
 import com.example.asus.teammanager.model.api_model.CustomerArea;
 import com.example.asus.teammanager.model.api_model.CustomerType;
+import com.example.asus.teammanager.model.api_model.FollowUp;
 import com.example.asus.teammanager.model.api_model.User;
 import com.example.asus.teammanager.model.api_model.UserLocation;
 import com.example.asus.teammanager.model.api_model.VisitPlanList;
@@ -71,6 +72,10 @@ public interface Routes {
     @GET("maps/api/geocode/json")
     Call<GeocodingApiResult> getLatngResult(@Query("address") String address, @Query("key") String key);
 
+    @Headers("Accept:application/json")
+    @GET("api/allfollowup")
+    Call<ArrayList<FollowUp>> getFollowUp(@Header("Authorization") String header, @Query("status") String status, @Query("date_time") String date_time);
+
 
 
 //    @Headers("Accept:application/json")
@@ -125,4 +130,20 @@ public interface Routes {
     @Headers("Accpet:application/json")
     @POST("api/visitplan/plan-list/checkout")
     Call<Message> doCheckout(@Header("Authorization") String header, @Body Map<String, Object> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/visitplan/plan-list/{id}/report")
+    Call<Message> saveReport(@Header("Authorization") String header, @Path("id") int id, @Body Map<String, Object> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/followup")
+    Call<Message> addFollowUp(@Header("Authorization") String header, @Body Map<String, String> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/followupcustomer")
+    Call<Message> addFollowUpCustomer(@Header("Authorization") String header, @Body Map<String, Object> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/followup/delete")
+    Call<Message> deleteFollowUp(@Header("Authorization") String header, @Body Map<String, Integer> data);
 }

@@ -83,30 +83,30 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
 
                 customer_areas.clear();
                 customer_areas.addAll(result);
-                adapter.notifyDataSetChanged();
-
-                txt_info.setVisibility(View.GONE);
+//                adapter.notifyDataSetChanged();
+//
+//                txt_info.setVisibility(View.GONE);
             }
 
             @Override
             public void onError(int code, String message) {
-                plan_list.clear();
+//                plan_list.clear();
                 customer_areas.clear();
-                adapter.notifyDataSetChanged();
-
-                txt_info.setVisibility(View.GONE);
-                Message response = new Gson().fromJson(message, Message.class);
-                txt_info.setText(response.getMessage());
+//                adapter.notifyDataSetChanged();
+//
+//                txt_info.setVisibility(View.GONE);
+//                Message response = new Gson().fromJson(message, Message.class);
+//                txt_info.setText(response.getMessage());
             }
 
             @Override
             public void onFail(String message) {
-                plan_list.clear();
+//                plan_list.clear();
                 customer_areas.clear();
-                adapter.notifyDataSetChanged();
-
-                txt_info.setVisibility(View.GONE);
-                txt_info.setText(message);
+//                adapter.notifyDataSetChanged();
+//
+//                txt_info.setVisibility(View.GONE);
+//                txt_info.setText(message);
             }
         });
         plan_list_presenter = new GetVisitPlanListPresenter(new GlobalPresenter() {

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/ll_customer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".4"
+                android:layout_gravity="center_vertical"
+                android:text="Select Shop: "
+                android:textColor="@color/colorTextSecondary"
+                android:layout_marginRight="10dp"/>
+            <ProgressBar
+                android:id="@+id/progress_shop"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"/>
+            <Spinner
+                android:id="@+id/spinner_shop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_spinner"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+            <TextView
+                android:id="@+id/lbl_customer_area"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".4"
+                android:layout_gravity="center_vertical"
+                android:text="Region: "
+                android:textColor="@color/colorTextSecondary" />
+            <TextView
+                android:id="@+id/customer_area"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Customer Region"
+                android:textColor="@color/colorText"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_end_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".4"
+                android:layout_gravity="center_vertical"
+                android:text="Name: "
+                android:textColor="@color/colorTextSecondary" />
+            <EditText
+                android:id="@+id/end_user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Customer Name"
+                android:textColor="@color/colorText"
+                android:textSize="14sp"
+                android:background="@drawable/bg_border_radius"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".4"
+                android:layout_gravity="center_vertical"
+                android:text="Address: "
+                android:textColor="@color/colorTextSecondary" />
+            <EditText
+                android:id="@+id/end_user_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Customer Address"
+                android:textColor="@color/colorText"
+                android:textSize="14sp"
+                android:background="@drawable/bg_border_radius"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:text="Description: "
+            android:textColor="@color/colorTextSecondary"
+            android:layout_marginRight="10dp"/>
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:gravity="top|start"
+            android:padding="10dp"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            android:background="@drawable/bg_border_radius"
+            android:hint="Describe your plan here!"
+            android:inputType="textMultiLine" />
+    </LinearLayout>
+</LinearLayout>

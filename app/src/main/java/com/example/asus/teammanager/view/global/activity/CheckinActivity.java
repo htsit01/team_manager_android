@@ -9,9 +9,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import com.example.asus.teammanager.presenter.GlobalPresenter;
 import com.example.asus.teammanager.presenter.customer_presenter.CheckinPresenter;
 import com.example.asus.teammanager.presenter.customer_presenter.CheckoutPresenter;
 import com.example.asus.teammanager.presenter.geocoding_presenter.GeocodingPresenter;
+import com.example.asus.teammanager.presenter.visit_plan.SaveVisitPlanReportPresenter;
 import com.google.gson.Gson;
 
 import java.util.Date;
@@ -34,9 +37,10 @@ import java.util.Date;
 public class CheckinActivity extends AppCompatActivity {
 
     private static final int GPS_SETTING_REQUEST = 100;
-    private TextView customer_name, last_action, current_action, checkin_date_time, checkin_status, checkin_error, lbl_error, lbl_status;
+    private TextView customer_name, last_action, current_action, checkin_date_time, checkin_status, checkin_error, lbl_error, lbl_status,txt_save;
     private Button btn_checkin, btn_checkout;
     private LinearLayout ll_new_action;
+    private EditText checkin_report;
     private String date_time;
 
     private VisitPlanList plan;
@@ -57,17 +61,23 @@ public class CheckinActivity extends AppCompatActivity {
         checkin_date_time = findViewById(R.id.checkin_date_time);
         checkin_status = findViewById(R.id.checkin_status);
         checkin_error = findViewById(R.id.checkin_error);
+        checkin_report = findViewById(R.id.checkin_report);
         btn_checkin = findViewById(R.id.btn_checkin);
         btn_checkout = findViewById(R.id.btn_checkout);
         ll_new_action = findViewById(R.id.ll_new_action);
         lbl_error = findViewById(R.id.lbl_error);
         lbl_status = findViewById(R.id.lbl_status);
+        txt_save = findViewById(R.id.txt_save);
 
         plan = (VisitPlanList) getIntent().getSerializableExtra("PLAN_LIST");
         status = plan.getStatus_done();
         sm = new SessionManager(this);
 
         customer_name.setText(plan.getCustomer().getName());
+        if(plan.getReport()!=null){
+            checkin_report.setText(plan.getReport());
+        }
+
         if(status == 0){
             btn_checkin.setVisibility(View.VISIBLE);
             btn_checkout.setVisibility(View.GONE);
@@ -112,7 +122,7 @@ public class CheckinActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Date date = new Date();
-                date_time = Functionality.formatDatetoString(date);
+                date_time = Functionality.formatDatetoString(date, "yyyy-MM-dd HH:mm:ss");
 
                 ll_new_action.setVisibility(View.GONE);
                 checkin_status.setVisibility(View.GONE);
@@ -251,7 +261,7 @@ public class CheckinActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Date date = new Date();
-                date_time = Functionality.formatDatetoString(date);
+                date_time = Functionality.formatDatetoString(date, "yyyy-MM-dd HH:mm:ss");
 
                 ll_new_action.setVisibility(View.GONE);
                 checkin_status.setVisibility(View.GONE);
@@ -382,6 +392,31 @@ public class CheckinActivity extends AppCompatActivity {
                 else{
                     turnOnGPSDialog();
                 }
+            }
+        });
+
+        txt_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SaveVisitPlanReportPresenter report_presenter = new SaveVisitPlanReportPresenter(new GlobalPresenter() {
+                    @Override
+                    public void onSuccess(Object object) {
+                        Message response = (Message) object;
+                        Toast.makeText(CheckinActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(int code, String message) {
+                        Message response = new Gson().fromJson(message, Message.class);
+                        Toast.makeText(CheckinActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFail(String message) {
+                        Toast.makeText(CheckinActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                report_presenter.saveReport(sm.getToken().getAccess_token(), plan.getId(),checkin_report.getText().toString(), plan.getVisit_plan_id());
             }
         });
 
