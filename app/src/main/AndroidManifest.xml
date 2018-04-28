@@ -36,7 +36,8 @@
         <activity
             android:name=".view.retail_manager.activity.RetailManagerActivity"
             android:label="@string/title_activity_retail_manager"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.retail_manager.activity.VisitPlanListActivityManager"></activity>
     </application>
 
 </manifest>

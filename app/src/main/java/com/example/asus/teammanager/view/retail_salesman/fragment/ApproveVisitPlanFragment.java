@@ -84,6 +84,7 @@ public class ApproveVisitPlanFragment extends Fragment {
                     txt_info.setVisibility(View.GONE);
                     visit_plans.addAll(result);
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -109,6 +110,8 @@ public class ApproveVisitPlanFragment extends Fragment {
         rv_visit_plans.setAdapter(adapter);
 
         setUpSpinner();
+
+//        visit_plan_presenter.getVisitPlanForApprove(sm.getToken().getAccess_token(), selected_month, selected_year);
 
         return view;
     }
