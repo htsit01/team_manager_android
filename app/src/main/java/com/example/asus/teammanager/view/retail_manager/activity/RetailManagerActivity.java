@@ -1,5 +1,6 @@
 package com.example.asus.teammanager.view.retail_manager.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import com.example.asus.teammanager.model.response.Message;
 import com.example.asus.teammanager.model.session_manager.SessionManager;
 import com.example.asus.teammanager.presenter.GlobalPresenter;
 import com.example.asus.teammanager.presenter.auth_presenter.LogoutPresenter;
+import com.example.asus.teammanager.view.global.activity.LoginActivity;
 import com.example.asus.teammanager.view.global.fragment.FollowUpFragment;
 import com.example.asus.teammanager.view.global.fragment.VisitPlanFragment;
 import com.example.asus.teammanager.view.retail_salesman.activity.RetailSMActivity;
@@ -123,8 +125,10 @@ public class RetailManagerActivity extends AppCompatActivity
                 public void onSuccess(Object object) {
                     Message response = (Message) object;
                     Toast.makeText(RetailManagerActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
-
                     sm.doClearSession();
+                    Intent intent = new Intent(RetailManagerActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
 
                 @Override
@@ -142,7 +146,7 @@ public class RetailManagerActivity extends AppCompatActivity
         }
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

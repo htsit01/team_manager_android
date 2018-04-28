@@ -1,5 +1,6 @@
 package com.example.asus.teammanager.view.retail_salesman.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -17,8 +18,10 @@ import com.example.asus.teammanager.model.response.Message;
 import com.example.asus.teammanager.model.session_manager.SessionManager;
 import com.example.asus.teammanager.presenter.GlobalPresenter;
 import com.example.asus.teammanager.presenter.auth_presenter.LogoutPresenter;
+import com.example.asus.teammanager.view.global.activity.LoginActivity;
 import com.example.asus.teammanager.view.global.fragment.FollowUpFragment;
 import com.example.asus.teammanager.view.global.fragment.VisitPlanFragment;
+import com.example.asus.teammanager.view.retail_manager.activity.RetailManagerActivity;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.pusher.pushnotifications.PushNotificationReceivedListener;
@@ -127,6 +130,9 @@ public class RetailSMActivity extends AppCompatActivity
                     Toast.makeText(RetailSMActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
 
                     sm.doClearSession();
+                    Intent intent = new Intent(RetailSMActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
 
                 @Override
