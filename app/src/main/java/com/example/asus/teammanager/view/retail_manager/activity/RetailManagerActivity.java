@@ -24,6 +24,7 @@ import com.example.asus.teammanager.view.global.activity.LoginActivity;
 import com.example.asus.teammanager.view.global.fragment.FollowUpFragment;
 import com.example.asus.teammanager.view.global.fragment.VisitPlanFragment;
 import com.example.asus.teammanager.view.retail_salesman.activity.RetailSMActivity;
+import com.example.asus.teammanager.view.retail_salesman.fragment.ApproveVisitPlanFragment;
 import com.google.gson.Gson;
 
 public class RetailManagerActivity extends AppCompatActivity
@@ -100,11 +101,12 @@ public class RetailManagerActivity extends AppCompatActivity
         } else if (id == R.id.nav_register) {
 
         } else if (id == R.id.nav_approve_plan) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_retail_manager, new ApproveVisitPlanFragment()).commit();
 
         } else if (id == R.id.nav_visit_report) {
 
         } else if (id == R.id.nav_follow_up) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_retail_sm, new FollowUpFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_retail_manager, new FollowUpFragment()).commit();
         } else if (id == R.id.nav_customer_receivable) {
 
         } else if (id == R.id.nav_achievement) {

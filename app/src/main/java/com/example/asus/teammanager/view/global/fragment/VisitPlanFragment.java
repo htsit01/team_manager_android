@@ -99,7 +99,7 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
             public void onSuccess(Object object) {
                 ArrayList<VisitPlanWithCount> result = (ArrayList<VisitPlanWithCount>) object;
                 visit_plans.clear();
-                adapter.notifyDataSetChanged();
+
                 if(result.size()==0){
                     txt_info.setVisibility(View.VISIBLE);
                     txt_info.setText("No Visit Plan found! Add new one by tapping on + button");
@@ -108,6 +108,7 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
                     txt_info.setVisibility(View.GONE);
                     visit_plans.addAll(result);
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override

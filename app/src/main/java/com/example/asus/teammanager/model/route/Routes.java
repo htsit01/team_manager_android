@@ -6,6 +6,7 @@ import com.example.asus.teammanager.model.api_model.CustomerType;
 import com.example.asus.teammanager.model.api_model.FollowUp;
 import com.example.asus.teammanager.model.api_model.User;
 import com.example.asus.teammanager.model.api_model.UserLocation;
+import com.example.asus.teammanager.model.api_model.VisitPlanForApprove;
 import com.example.asus.teammanager.model.api_model.VisitPlanList;
 import com.example.asus.teammanager.model.api_model.VisitPlanWithCount;
 import com.example.asus.teammanager.model.response.GeocodingApiResult;
@@ -76,6 +77,9 @@ public interface Routes {
     @GET("api/allfollowup")
     Call<ArrayList<FollowUp>> getFollowUp(@Header("Authorization") String header, @Query("status") String status, @Query("date_time") String date_time);
 
+    @Headers("Accept:application/json")
+    @GET("api/salesman/visitplan/approve")
+    Call<ArrayList<VisitPlanForApprove>> getVisitPlanForApprove(@Header("Authorization") String header, @Query("month") int month, @Query("year") int year);
 
 
 //    @Headers("Accept:application/json")
