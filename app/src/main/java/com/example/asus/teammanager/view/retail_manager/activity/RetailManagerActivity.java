@@ -27,7 +27,7 @@ import com.google.gson.Gson;
 public class RetailManagerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private SessionManager
+    private SessionManager sm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +122,7 @@ public class RetailManagerActivity extends AppCompatActivity
                 @Override
                 public void onSuccess(Object object) {
                     Message response = (Message) object;
-                    Toast.makeText(RetailSMActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RetailManagerActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
 
                     sm.doClearSession();
                 }
@@ -130,12 +130,12 @@ public class RetailManagerActivity extends AppCompatActivity
                 @Override
                 public void onError(int code, String message) {
                     Message response  = new Gson().fromJson(message, Message.class);
-                    Toast.makeText(RetailSMActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RetailManagerActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFail(String message) {
-                    Toast.makeText(RetailSMActivity.this, message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RetailManagerActivity.this, message, Toast.LENGTH_SHORT).show();
                 }
             });
             presenter.doLogout(sm.getToken().getAccess_token());
