@@ -6,7 +6,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,11 +20,9 @@ import com.example.asus.teammanager.model.session_manager.SessionManager;
 import com.example.asus.teammanager.presenter.GlobalPresenter;
 import com.example.asus.teammanager.presenter.auth_presenter.LoginPresenter;
 import com.example.asus.teammanager.presenter.user_presenter.GetUserPresenter;
-import com.example.asus.teammanager.view.retail_salesmanager.activity.RetailSMActivity;
-import com.google.firebase.messaging.RemoteMessage;
+import com.example.asus.teammanager.view.retail_manager.activity.RetailManagerActivity;
+import com.example.asus.teammanager.view.retail_salesman.activity.RetailSMActivity;
 import com.google.gson.Gson;
-import com.pusher.pushnotifications.PushNotificationReceivedListener;
-import com.pusher.pushnotifications.PushNotifications;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -66,10 +63,28 @@ public class LoginActivity extends AppCompatActivity {
                                     sm.doSaveUser(response);
                                     Toast.makeText(LoginActivity.this, "User login successfully.", Toast.LENGTH_SHORT).show();
 
+
                                     if(response.getRole_id()==1){
+
+                                    }
+                                    else if(response.getRole_id()==2){
+                                        Intent intent = new Intent(LoginActivity.this, RetailManagerActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else if(response.getRole_id()==3){
+
+                                    }
+                                    else if(response.getRole_id()==4){
+
+                                    }
+                                    else if(response.getRole_id()==5){
                                         Intent intent = new Intent(LoginActivity.this, RetailSMActivity.class);
                                         startActivity(intent);
                                         finish();
+                                    }
+                                    else if(response.getRole_id()==7){
+
                                     }
                                     //redirect to each user role page
                                 }

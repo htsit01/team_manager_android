@@ -27,12 +27,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.retail_salesmanager.activity.RetailSMActivity"
+            android:name=".view.retail_salesman.activity.RetailSMActivity"
             android:label="Main Activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.global.activity.LocationHistoryActivity" />
         <activity android:name=".view.global.activity.VisitPlanListActivity" />
         <activity android:name=".view.global.activity.CheckinActivity" />
+        <activity
+            android:name=".view.retail_manager.activity.RetailManagerActivity"
+            android:label="@string/title_activity_retail_manager"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

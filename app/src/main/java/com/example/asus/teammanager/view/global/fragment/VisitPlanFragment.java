@@ -178,13 +178,12 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
                 calendar.set(Calendar.SECOND,0);
                 calendar.set(Calendar.MILLISECOND,0);
                 now= calendar.getTime();
-                Log.e("date", now.toString());
+
                 Date selected;
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",new Locale("id", "ID"));
                 try {
                     selected = sdf.parse(selected_date);
-                    Log.e("date", selected_date);
                     if(selected.compareTo(now)<0){
                         Toast.makeText(getContext(), "You cannot add visit plan on past day.", Toast.LENGTH_SHORT).show();
                     }

@@ -73,10 +73,4 @@ fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
 app/libs/
-app/src/main/java/com/example/asus/teammanager/view/director/
-app/src/main/java/com/example/asus/teammanager/view/project_manager/
-app/src/main/java/com/example/asus/teammanager/view/project_salesman/
-app/src/main/java/com/example/asus/teammanager/view/retail_manager/
-app/src/main/java/com/example/asus/teammanager/view/retail_salesmanager/fragment/
-app/src/main/java/com/example/asus/teammanager/view/surveyor/
-app/src/main/java/com/example/asus/teammanager/view/surveyor_manager/
+app/src/main/java/com/example/asus/teammanager/view/retail_salesman/fragment/

@@ -1,10 +1,7 @@
-package com.example.asus.teammanager.view.retail_salesmanager.activity;
+package com.example.asus.teammanager.view.retail_salesman.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,17 +10,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.asus.teammanager.R;
+import com.example.asus.teammanager.model.response.Message;
+import com.example.asus.teammanager.model.session_manager.SessionManager;
+import com.example.asus.teammanager.presenter.GlobalPresenter;
+import com.example.asus.teammanager.presenter.auth_presenter.LogoutPresenter;
 import com.example.asus.teammanager.view.global.fragment.FollowUpFragment;
-import com.example.asus.teammanager.view.global.fragment.MainFragment;
 import com.example.asus.teammanager.view.global.fragment.VisitPlanFragment;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 import com.pusher.pushnotifications.PushNotificationReceivedListener;
 import com.pusher.pushnotifications.PushNotifications;
 
 public class RetailSMActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private SessionManager sm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class RetailSMActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        sm = new SessionManager(this);
 
         /*
         TODO::check if the user subscribed to this channel (using session manager)
@@ -113,6 +118,29 @@ public class RetailSMActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_entry_order) {
 
+        }
+        else if(id == R.id.nav_log_out){
+            LogoutPresenter presenter = new LogoutPresenter(new GlobalPresenter() {
+                @Override
+                public void onSuccess(Object object) {
+                    Message response = (Message) object;
+                    Toast.makeText(RetailSMActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    sm.doClearSession();
+                }
+
+                @Override
+                public void onError(int code, String message) {
+                    Message response  = new Gson().fromJson(message, Message.class);
+                    Toast.makeText(RetailSMActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFail(String message) {
+                    Toast.makeText(RetailSMActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+            presenter.doLogout(sm.getToken().getAccess_token());
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

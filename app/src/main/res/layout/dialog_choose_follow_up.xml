@@ -9,17 +9,18 @@
         android:id="@+id/followup_end_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="FolloUp End-User"
-        android:gravity="center"
+        android:text="Followup End-User"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorText"
+        android:background="@drawable/bg_bottom_border"/>
     <TextView
         android:id="@+id/followup_customer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="FolloUp Customer"
-        android:gravity="center"
+        android:text="Followup Customer"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorText"/>
 
 </LinearLayout>

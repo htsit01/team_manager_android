@@ -43,14 +43,12 @@ public class AddFollowUpDialog extends DialogFragment {
     private ArrayList<CustomerArea> customer_areas;
     private String txt_description, date_time;
     private ArrayAdapter<String> shop_adapter;
-    private LinearLayout ll_end_user, ll_customer;
 
     //type disini adalah apakah type end user or customer
     // 0 end user
     // 1 customer
     //status means edit or add
-    private int status, type, plan_id;
-    private String intent_description, intent_name, intent_address;
+    private int type;
 
 
     @NonNull
@@ -68,29 +66,14 @@ public class AddFollowUpDialog extends DialogFragment {
         progress_shop = view.findViewById(R.id.progress_shop);
         end_user_name = view.findViewById(R.id.end_user_name);
         end_user_address =view.findViewById(R.id.end_user_address);
-        ll_customer = view.findViewById(R.id.ll_customer);
-        ll_end_user = view.findViewById(R.id.ll_end_user);
+        LinearLayout ll_customer = view.findViewById(R.id.ll_customer);
+        LinearLayout ll_end_user = view.findViewById(R.id.ll_end_user);
 
         customer_areas = (ArrayList<CustomerArea>) getArguments().getSerializable("CUSTOMER_AREAS");
-        status = getArguments().getInt("STATUS");
-        intent_description = getArguments().getString("DESCRIPTION");
-        intent_name = getArguments().getString("NAME");
-        intent_address = getArguments().getString("ADDRESS");
         type = getArguments().getInt("TYPE");
-        plan_id = getArguments().getInt("PLAN_ID");
 
         SessionManager sm = new SessionManager(getActivity());
-
-        if(status==0){
-            builder.setTitle("Add Follow Up");
-        }
-        else{
-            builder.setTitle("Delete Follow Up");
-            if(type==0){
-                end_user_name.setText(intent_name);
-                end_user_address.setText(intent_address);
-            }
-        }
+        builder.setTitle("Add Follow Up");
 
         if(type == 0){
             ll_customer.setVisibility(View.GONE);
@@ -165,33 +148,22 @@ public class AddFollowUpDialog extends DialogFragment {
                 else{
                     txt_description = description.getText().toString();
                 }
-
-                if(status == 0 ){ //means add
-                    intent.putExtra("TYPE", type);
-                    intent.putExtra("DATE_TIME", date_time);
-                    intent.putExtra("DESCRIPTION", txt_description);
-                    if(type==0){
-                        if(!TextUtils.isEmpty(end_user_name.getText().toString().trim())&&!TextUtils.isEmpty(end_user_address.getText().toString())){
-                            intent.putExtra("END_USER_NAME", end_user_name.getText().toString());
-                            intent.putExtra("END_USER_ADDRESS", end_user_address.getText().toString());
-                            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                        }
-                        else{
-                            Toast.makeText(getContext(), "Add Follow up plan failed. Make sure you fill all things that are required.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    else {
-                        intent.putExtra("CUSTOMER_ID",customers.get(spinner_shop.getSelectedItemPosition()).getId());
+                intent.putExtra("TYPE", type);
+                intent.putExtra("DATE_TIME", date_time);
+                intent.putExtra("DESCRIPTION", txt_description);
+                if(type==0){
+                    if(!TextUtils.isEmpty(end_user_name.getText().toString().trim())&&!TextUtils.isEmpty(end_user_address.getText().toString())){
+                        intent.putExtra("END_USER_NAME", end_user_name.getText().toString());
+                        intent.putExtra("END_USER_ADDRESS", end_user_address.getText().toString());
                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                     }
-                }
-                else{ //means edit
-                    if(!TextUtils.isEmpty(end_user_name.getText().toString().trim())&&!TextUtils.isEmpty(end_user_address.getText().toString())){
-//                        plan_id,type, end_user_name.getText().toString(), end_user_address.getText().toString(), txt_description
-                    }
                     else{
-                        Toast.makeText(getContext(), "Edit Follow up plan failed. Make sure you fill all things that are required.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Add Follow up plan failed. Make sure you fill all things that are required.", Toast.LENGTH_SHORT).show();
                     }
+                }
+                else {
+                    intent.putExtra("CUSTOMER_ID",customers.get(spinner_shop.getSelectedItemPosition()).getId());
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                 }
             }
         });

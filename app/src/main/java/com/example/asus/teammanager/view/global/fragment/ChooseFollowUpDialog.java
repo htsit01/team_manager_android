@@ -3,6 +3,7 @@ package com.example.asus.teammanager.view.global.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +15,6 @@ import com.example.asus.teammanager.R;
 
 public class ChooseFollowUpDialog extends DialogFragment{
 
-    private TextView followup_end_user, followup_customer;
     private int type;
 
     @NonNull
@@ -26,15 +26,14 @@ public class ChooseFollowUpDialog extends DialogFragment{
 
         builder.setTitle("Pick followup type");
 
-        followup_end_user = view.findViewById(R.id.followup_end_user);
-        followup_customer = view.findViewById(R.id.followup_customer);
+        TextView followup_end_user = view.findViewById(R.id.followup_end_user);
+        TextView followup_customer = view.findViewById(R.id.followup_customer);
 
 
         followup_end_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 type = 0;
-
                 Intent intent = new Intent()
                         .putExtra("TYPE", type);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,intent);
@@ -45,10 +44,16 @@ public class ChooseFollowUpDialog extends DialogFragment{
             @Override
             public void onClick(View v) {
                 type = 1;
-
                 Intent intent = new Intent()
                         .putExtra("TYPE", type);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,intent);
+            }
+        });
+
+        builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
 

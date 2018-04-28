@@ -33,10 +33,12 @@ import com.example.asus.teammanager.presenter.followup_presenter.GetFollowUpPres
 import com.example.asus.teammanager.view.global.adapter.FollowUpAdapter;
 import com.google.gson.Gson;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -195,9 +197,34 @@ public class FollowUpFragment extends Fragment implements FollowUpAdapter.OnDele
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChooseFollowUpDialog dialog = new ChooseFollowUpDialog();
-                dialog.setTargetFragment(FollowUpFragment.this, CHOOSE_FOLLOWUP);
-                dialog.show(getFragmentManager(), "ChooseFollowUpDialog");
+
+                Date now = new Date();
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(now);
+                calendar.set(Calendar.HOUR_OF_DAY,0);
+                calendar.set(Calendar.MINUTE,0);
+                calendar.set(Calendar.SECOND,0);
+                calendar.set(Calendar.MILLISECOND,0);
+                now= calendar.getTime();
+
+                Date selected;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",new Locale("id", "ID"));
+                try {
+                    selected = sdf.parse(date_time);
+                    if(selected.compareTo(now)<0){
+                        Toast.makeText(getContext(), "You cannot add followup plan on past day.", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        ChooseFollowUpDialog dialog = new ChooseFollowUpDialog();
+                        dialog.setTargetFragment(FollowUpFragment.this, CHOOSE_FOLLOWUP);
+                        dialog.show(getFragmentManager(), "ChooseFollowUpDialog");
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
 
@@ -225,14 +252,11 @@ public class FollowUpFragment extends Fragment implements FollowUpAdapter.OnDele
             if(resultCode== Activity.RESULT_OK){
                 Bundle bundle = data.getExtras();
                 int type = bundle.getInt("TYPE");
-
-
                 AddFollowUpDialog dialog = new AddFollowUpDialog();
                 dialog.setTargetFragment(FollowUpFragment.this, ADD_FOLLOWUP);
                 dialog.show(getFragmentManager(),"AddFollowUpDialog");
                 Bundle new_bundle = new Bundle();
                 new_bundle.putInt("TYPE", type);
-                new_bundle.putInt("STATUS", 0);
                 new_bundle.putSerializable("CUSTOMER_AREAS", customer_areas);
                 dialog.setArguments(new_bundle);
             }

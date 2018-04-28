@@ -104,6 +104,10 @@ public interface Routes {
     Call<LoginResponse> postLogin(@Body Map<String, String> data);
 
     @Headers("Accept:application/json")
+    @POST("api/logout")
+    Call<Message> postLogout(@Header("Authorization") String header);
+
+    @Headers("Accept:application/json")
     @POST("api/add-plan")
     Call<Message> addVisitPlan(@Header("Authorization") String header,  @Body Map<String, String> data);
 
