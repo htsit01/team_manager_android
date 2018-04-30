@@ -13,6 +13,7 @@ import com.example.asus.teammanager.model.response.GeocodingApiResult;
 import com.example.asus.teammanager.model.response.LocationHistoryResponse;
 import com.example.asus.teammanager.model.response.LoginResponse;
 import com.example.asus.teammanager.model.response.Message;
+import com.example.asus.teammanager.model.response.SalesmanPlanListResponse;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -78,9 +79,12 @@ public interface Routes {
     Call<ArrayList<FollowUp>> getFollowUp(@Header("Authorization") String header, @Query("status") String status, @Query("date_time") String date_time);
 
     @Headers("Accept:application/json")
-    @GET("api/salesman/visitplan/approve")
+    @GET("api/salesman/visitplan")
     Call<ArrayList<VisitPlanForApprove>> getVisitPlanForApprove(@Header("Authorization") String header, @Query("month") int month, @Query("year") int year);
 
+    @Headers("Accept:application/json")
+    @GET("api/salesman/visitplan/{id}/plan-list")
+    Call<SalesmanPlanListResponse> getSalesmanVisitPlanList(@Header("Authorization") String header, @Path("id") int id, @Query("day") int day);
 
 //    @Headers("Accept:application/json")
 //    @GET("api/fetchsalesperson")
@@ -154,4 +158,20 @@ public interface Routes {
     @Headers("Accept:application/json")
     @POST("api/followup/delete")
     Call<Message> deleteFollowUp(@Header("Authorization") String header, @Body Map<String, Integer> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/visitplan/approval")
+    Call<Message> sendApproval(@Header("Authorization") String header, @Body Map<String, Integer> visit_plan_id);
+
+    @Headers("Accept:application/json")
+    @POST("api/followup/checkin")
+    Call<Message> doFollowUpCheckin(@Header("Authorization") String header, @Body Map<String, Object> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/followup/checkout")
+    Call<Message> doFollowUpCheckout(@Header("Authorization") String header, @Body Map<String, Object> data);
+
+    @Headers("Accept:application/json")
+    @POST("api/followup/report")
+    Call<Message> saveFollowUpReport(@Header("Authorization") String header, @Body Map<String, Object> data);
 }

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.teammanager.R;
+import com.example.asus.teammanager.class_project.GetLocation;
 import com.example.asus.teammanager.model.api_model.CustomerArea;
 import com.example.asus.teammanager.model.api_model.FollowUp;
 import com.example.asus.teammanager.model.response.Message;
@@ -30,6 +31,7 @@ import com.example.asus.teammanager.presenter.customer_presenter.GetCustomerArea
 import com.example.asus.teammanager.presenter.followup_presenter.AddFollowUpPresenter;
 import com.example.asus.teammanager.presenter.followup_presenter.DeleteFollowUpPresenter;
 import com.example.asus.teammanager.presenter.followup_presenter.GetFollowUpPresenter;
+import com.example.asus.teammanager.view.global.activity.FollowUpCheckinActivity;
 import com.example.asus.teammanager.view.global.adapter.FollowUpAdapter;
 import com.google.gson.Gson;
 
@@ -44,7 +46,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FollowUpFragment extends Fragment implements FollowUpAdapter.OnDeleteFollowUp{
+public class FollowUpFragment extends Fragment implements FollowUpAdapter.OnDeleteFollowUp, FollowUpAdapter.OnClickFollowUp{
 
     private static final int CHOOSE_FOLLOWUP = 100;
     private static final int ADD_FOLLOWUP = 101;
@@ -82,7 +84,7 @@ public class FollowUpFragment extends Fragment implements FollowUpAdapter.OnDele
         FloatingActionButton fab = view.findViewById(R.id.fab_add);
 
         followup_adapter = new FollowUpAdapter(follow_ups);
-        followup_adapter.setInterface(this);
+        followup_adapter.setInterface(this, this);
         rv_followups.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_followups.setAdapter(followup_adapter);
 
@@ -228,6 +230,8 @@ public class FollowUpFragment extends Fragment implements FollowUpAdapter.OnDele
             }
         });
 
+        getActivity().setTitle("My Follow Up");
+
         return view;
     }
 
@@ -344,5 +348,19 @@ public class FollowUpFragment extends Fragment implements FollowUpAdapter.OnDele
             }
         });
         delete_followup_presenter.deleteFollowUp(sm.getToken().getAccess_token(), follow_ups.get(position).getId(), follow_ups.get(position).getCustomer()==null?0:1);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = (int) v.getTag();
+        Intent intent = new Intent(getContext(), FollowUpCheckinActivity.class);
+        if(follow_ups.get(position).getCustomer()==null){
+            intent.putExtra("TYPE", 0);
+        }
+        else{
+            intent.putExtra("TYPE", 1);
+        }
+        intent.putExtra("FOLLOWUP", follow_ups.get(position));
+        startActivity(intent);
     }
 }

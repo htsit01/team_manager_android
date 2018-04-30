@@ -21,14 +21,20 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
         this.follow_ups = follow_ups;
     }
 
+    public interface OnClickFollowUp{
+        void onClick(View v);
+    }
+
     public interface OnDeleteFollowUp{
         void onDelete(View v);
     }
 
     private OnDeleteFollowUp onDeleteFollowUp;
+    private OnClickFollowUp onClickFollowUp;
 
-    public void setInterface (OnDeleteFollowUp onDeleteFollowUp){
+    public void setInterface (OnDeleteFollowUp onDeleteFollowUp, OnClickFollowUp onClickFollowUp){
         this.onDeleteFollowUp = onDeleteFollowUp;
+        this.onClickFollowUp = onClickFollowUp;
     }
 
     @NonNull
@@ -46,6 +52,8 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
         holder.plan_list_detail.setText(follow_up.getDescription()==null?"Description: -":"Description: ".concat(follow_up.getDescription()));
         holder.color_indicator.setImageResource(follow_up.getStatus_color()==0?R.drawable.ic_circle_red:R.drawable.ic_circle_green);
         holder.txt_delete.setTag(position);
+        holder.itemView.setTag(position);
+
         if(follow_up.getStatus_done()==0){
             holder.txt_delete.setVisibility(View.VISIBLE);
         }
@@ -77,6 +85,14 @@ public class FollowUpAdapter extends RecyclerView.Adapter<FollowUpAdapter.MyView
                 public void onClick(View v) {
                     if(onDeleteFollowUp!=null){
                         onDeleteFollowUp.onDelete(v);
+                    }
+                }
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onClickFollowUp!=null){
+                        onClickFollowUp.onClick(v);
                     }
                 }
             });

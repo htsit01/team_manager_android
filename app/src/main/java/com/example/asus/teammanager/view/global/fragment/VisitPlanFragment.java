@@ -218,6 +218,8 @@ public class VisitPlanFragment extends Fragment implements VisitPlanWithCountAda
 
         setUpSpinner();
 
+        getActivity().setTitle("My Visit Plan");
+
         return view;
     }
 

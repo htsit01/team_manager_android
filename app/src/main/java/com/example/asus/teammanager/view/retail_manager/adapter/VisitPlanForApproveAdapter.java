@@ -21,6 +21,16 @@ public class VisitPlanForApproveAdapter extends RecyclerView.Adapter<VisitPlanFo
         this.visit_plans = visit_plans;
     }
 
+    public interface OnClickVisitPlan{
+        void onClick(View v);
+    }
+
+    private OnClickVisitPlan onClickVisitPlan;
+
+    public void setListener(OnClickVisitPlan onClickVisitPlan){
+        this.onClickVisitPlan = onClickVisitPlan;
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,6 +44,8 @@ public class VisitPlanForApproveAdapter extends RecyclerView.Adapter<VisitPlanFo
         holder.visit_plan_title.setText(plan.getUser().concat("\'s Visit Plan"));
         holder.visit_plan_date.setText("Valid Date: ".concat(Functionality.formatDate("yyyy-MM-dd", "EEE, dd MMM yyyy", plan.getValid_date())));
         holder.visit_plan_last_edit.setText("Last Edit: ".concat(Functionality.formatDate("yyyy-MM-dd", "EEE, dd MMM yyyy", plan.getUpdated_at())));
+
+        holder.itemView.setTag(position);
     }
 
     @Override
@@ -51,6 +63,15 @@ public class VisitPlanForApproveAdapter extends RecyclerView.Adapter<VisitPlanFo
             visit_plan_title = itemView.findViewById(R.id.visit_plan_title);
             visit_plan_date = itemView.findViewById(R.id.visit_plan_date);
             visit_plan_last_edit = itemView.findViewById(R.id.visit_plan_last_edit);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onClickVisitPlan!=null){
+                        onClickVisitPlan.onClick(v);
+                    }
+                }
+            });
         }
     }
 }

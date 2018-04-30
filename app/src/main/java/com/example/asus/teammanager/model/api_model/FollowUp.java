@@ -1,6 +1,8 @@
 package com.example.asus.teammanager.model.api_model;
 
-public class FollowUp {
+import java.io.Serializable;
+
+public class FollowUp  implements Serializable{
     private int id;
     private int user_id;
     private double checkin_lat;
@@ -13,6 +15,7 @@ public class FollowUp {
     private String address;
     private int status_done;
     private String date_time;
+    private String start_time;
     private String finish_time;
     private int status_color;
     private String description;
@@ -22,7 +25,7 @@ public class FollowUp {
     private Customer customer;
 
     public FollowUp(int id, int user_id, double checkin_lat, double checkin_lng, String checkin_address, double checkout_lat, double checkout_lng,
-                    String checkout_address, String name, String address, int status_done, String date_time, String finish_time, int status_color, String description, String report,
+                    String checkout_address, String name, String address, int status_done, String date_time, String start_time, String finish_time, int status_color, String description, String report,
                     String created_at, String updated_at, Customer customer) {
         this.id = id;
         this.user_id = user_id;
@@ -36,6 +39,7 @@ public class FollowUp {
         this.address = address;
         this.status_done = status_done;
         this.date_time = date_time;
+        this.start_time = start_time;
         this.finish_time = finish_time;
         this.status_color = status_color;
         this.description = description;
@@ -123,6 +127,14 @@ public class FollowUp {
 
     public void setDate_time(String date_time) {
         this.date_time = date_time;
+    }
+
+    public String getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
     }
 
     public String getFinish_time() {

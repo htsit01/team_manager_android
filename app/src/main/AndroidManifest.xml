@@ -37,7 +37,8 @@
             android:name=".view.retail_manager.activity.RetailManagerActivity"
             android:label="@string/title_activity_retail_manager"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.retail_manager.activity.VisitPlanListActivityManager"></activity>
+        <activity android:name=".view.retail_manager.activity.VisitPlanListActivityManager" />
+        <activity android:name=".view.global.activity.FollowUpCheckinActivity"></activity>
     </application>
 
 </manifest>

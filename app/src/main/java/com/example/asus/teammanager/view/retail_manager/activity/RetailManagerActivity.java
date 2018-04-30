@@ -2,9 +2,6 @@ package com.example.asus.teammanager.view.retail_manager.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,9 +19,7 @@ import com.example.asus.teammanager.presenter.GlobalPresenter;
 import com.example.asus.teammanager.presenter.auth_presenter.LogoutPresenter;
 import com.example.asus.teammanager.view.global.activity.LoginActivity;
 import com.example.asus.teammanager.view.global.fragment.FollowUpFragment;
-import com.example.asus.teammanager.view.global.fragment.VisitPlanFragment;
-import com.example.asus.teammanager.view.retail_salesman.activity.RetailSMActivity;
-import com.example.asus.teammanager.view.retail_salesman.fragment.ApproveVisitPlanFragment;
+import com.example.asus.teammanager.view.retail_manager.fragment.ApproveVisitPlanFragment;
 import com.google.gson.Gson;
 
 public class RetailManagerActivity extends AppCompatActivity
@@ -39,14 +34,8 @@ public class RetailManagerActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        sm = new SessionManager(this);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,7 +49,7 @@ public class RetailManagerActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

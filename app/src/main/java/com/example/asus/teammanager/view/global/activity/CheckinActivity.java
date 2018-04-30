@@ -87,13 +87,13 @@ public class CheckinActivity extends AppCompatActivity {
         else if (status==1){
             btn_checkin.setVisibility(View.GONE);
             btn_checkout.setVisibility(View.VISIBLE);
-            last_action.setText("You have checkin here at ".concat(Functionality.formatDate("yyyy-MM-dd HH:mm:ss", "EEE, dd MMM yyyy HH:mm:ss",plan.getStart_time())));
+            last_action.setText("You have checkin here on ".concat(Functionality.formatDate("yyyy-MM-dd HH:mm:ss", "EEE, dd MMM yyyy HH:mm:ss",plan.getStart_time())));
 
         }
         else{
             btn_checkin.setVisibility(View.GONE);
             btn_checkout.setVisibility(View.GONE);
-            last_action.setText("You have checkout from here at ".concat(Functionality.formatDate("yyyy-MM-dd HH:mm:ss", "EEE, dd MMM yyyy HH:mm:ss",plan.getStart_time())));
+            last_action.setText("You have checkout from here on ".concat(Functionality.formatDate("yyyy-MM-dd HH:mm:ss", "EEE, dd MMM yyyy HH:mm:ss",plan.getStart_time())));
         }
 
         location_class = new GetLocation(CheckinActivity.this, new LocationListener() {

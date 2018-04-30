@@ -1,6 +1,7 @@
-package com.example.asus.teammanager.view.retail_salesman.fragment;
+package com.example.asus.teammanager.view.retail_manager.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,6 +28,7 @@ import com.example.asus.teammanager.presenter.date_presenter.DatePresenter;
 import com.example.asus.teammanager.presenter.visit_plan.GetMyVisitPlanPresenter;
 import com.example.asus.teammanager.presenter.visit_plan.GetVisitPlanForApprovePresenter;
 import com.example.asus.teammanager.view.global.adapter.VisitPlanWithCountAdapter;
+import com.example.asus.teammanager.view.retail_manager.activity.VisitPlanListActivityManager;
 import com.example.asus.teammanager.view.retail_manager.adapter.VisitPlanForApproveAdapter;
 import com.google.gson.Gson;
 
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-public class ApproveVisitPlanFragment extends Fragment {
+public class ApproveVisitPlanFragment extends Fragment implements VisitPlanForApproveAdapter.OnClickVisitPlan{
 
     private ArrayList<String> years = new ArrayList<>();
     private ArrayList<String> months = new ArrayList<>(Arrays.asList("Select Month", "January","February","March","April","May","June","July","August","September","October","November","December"));
@@ -107,6 +109,7 @@ public class ApproveVisitPlanFragment extends Fragment {
         });
         rv_visit_plans.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new VisitPlanForApproveAdapter(visit_plans);
+        adapter.setListener(this);
         rv_visit_plans.setAdapter(adapter);
 
         setUpSpinner();
@@ -163,5 +166,15 @@ public class ApproveVisitPlanFragment extends Fragment {
         spinner_month.setSelection(month+1);
         selected_month = month+1;
         selected_year = year;
+
+        getActivity().setTitle("Approve Plan");
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = (int) v.getTag();
+        Intent intent = new Intent(getContext(), VisitPlanListActivityManager.class);
+        intent.putExtra("VISIT_PLAN", visit_plans.get(position));
+        startActivity(intent);
     }
 }

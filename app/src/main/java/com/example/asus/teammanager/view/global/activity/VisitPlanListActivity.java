@@ -28,6 +28,7 @@ import com.example.asus.teammanager.presenter.customer_presenter.GetCustomerArea
 import com.example.asus.teammanager.presenter.visit_plan.AddVisitPlanListPresenter;
 import com.example.asus.teammanager.presenter.visit_plan.DeleteVisitPlanListPresenter;
 import com.example.asus.teammanager.presenter.visit_plan.GetVisitPlanListPresenter;
+import com.example.asus.teammanager.presenter.visit_plan.SendApprovalPresenter;
 import com.example.asus.teammanager.presenter.visit_plan.UpdateVisitPlanListPresenter;
 import com.example.asus.teammanager.view.global.adapter.PlanListAdapter;
 import com.example.asus.teammanager.view.global.fragment.AddPlanListDialog;
@@ -43,8 +44,6 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
     private Spinner spinner_day;
     private Button btn_approval;
     private TextView txt_info;
-    private RecyclerView rv_plan_list;
-    private FloatingActionButton fab_add;
 
     private PlanListAdapter adapter;
     private ArrayList<VisitPlanList> plan_list = new ArrayList<>();
@@ -67,8 +66,8 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
         spinner_day = findViewById(R.id.spinner_day);
         btn_approval = findViewById(R.id.btn_approval);
         txt_info = findViewById(R.id.txt_info);
-        rv_plan_list = findViewById(R.id.rv_plan_list);
-        fab_add = findViewById(R.id.fab_add);
+        RecyclerView rv_plan_list = findViewById(R.id.rv_plan_list);
+        FloatingActionButton fab_add = findViewById(R.id.fab_add);
 
         adapter = new PlanListAdapter(plan_list, customer_areas);
         adapter.setInterface(this, this);
@@ -114,7 +113,6 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
             public void onSuccess(Object object) {
                 ArrayList<VisitPlanList> result = (ArrayList<VisitPlanList>) object;
                 plan_list.clear();
-                adapter.notifyDataSetChanged();
 
                 if(result.size()==0){
                     txt_info.setVisibility(View.VISIBLE);
@@ -125,6 +123,8 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
                     plan_list.addAll(result);
                     customer_area_presenter.getCustomerArea(sm.getToken().getAccess_token());
                 }
+
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -218,6 +218,31 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
                     dialog.setArguments(args);
                     dialog.show(getSupportFragmentManager(), "AddPlanListDialog");
                 }
+            }
+        });
+
+        btn_approval.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SendApprovalPresenter approval_presenter = new SendApprovalPresenter(new GlobalPresenter() {
+                    @Override
+                    public void onSuccess(Object object) {
+                        Message response = (Message) object;
+                        Toast.makeText(VisitPlanListActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                        btn_approval.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(int code, String message) {
+                        Toast.makeText(VisitPlanListActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFail(String message) {
+                        Toast.makeText(VisitPlanListActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                approval_presenter.sendApproval(sm.getToken().getAccess_token(), visit_plan.getId());
             }
         });
 
@@ -353,7 +378,6 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
         super.onResume();
         plan_list_presenter.getPlanList(sm.getToken().getAccess_token(), visit_plan.getId(),spinner_day.getSelectedItemPosition());
         is_first_launch = false;
-
     }
 
     @Override
@@ -368,6 +392,4 @@ public class VisitPlanListActivity extends AppCompatActivity implements PlanList
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }
